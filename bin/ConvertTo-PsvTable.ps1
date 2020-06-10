@@ -2,10 +2,18 @@ function ConvertTo-PsvTable {
     
     param(
         [Parameter(Mandatory)]
-        [psobject]$Object
+        [psobject]$Object,
+
+        [string]
+        $TableId
     )
 
-    $Output = "<table>`n<colgroup>$("<col>" * ($Object[0].psobject.Properties | Measure-Object).Count)</colgroup>`n"
+    $id = ""
+    if (-not [string]::IsNullOrEmpty($TableId)) {
+        $id = "id='$TableId'"
+    }
+
+    $Output = "<table $id>`n<colgroup>$("<col>" * ($Object[0].psobject.Properties | Measure-Object).Count)</colgroup>`n"
     $Output += $Object[0].psobject.Properties |
         ForEach-Object -Begin {"<tr>"} -Process {"<th>$($_.Name)</th>"} -End {"</tr>`n"}
 
