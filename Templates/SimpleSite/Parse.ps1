@@ -1,4 +1,17 @@
 $ErrorActionPreference = "stop"
-Import-Module $PSScriptRoot\bin\Invoke-PsvParser.ps1 -Force
+Import-Module Vistula -Force
 
-Invoke-PsvParser -File "$PSScriptRoot\html\index.psv.html" | Export-Clixml -Path "$PSScriptRoot\View\index.psv.xml"
+<#
+$InputFilePath = "$PSScriptRoot\html\index.psv.html"
+
+[pscustomobject][ordered]@{
+    Header = @{
+        Hash = Get-FileHash $InputFilePath
+    }
+    Content = Invoke-VistulaParser -File $InputFilePath
+} | Export-Clixml -Path "$PSScriptRoot\.cache\index.psv.xml"
+#>
+
+foreach ($item in Get-ChildItem -Path "$PSScriptRoot\html\*.html") {
+    Invoke-VistulaParser -File $item.FullName | Export-Clixml -Path "$PSScriptRoot\.cache\$($item.BaseName).xml"
+}

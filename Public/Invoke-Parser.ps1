@@ -1,4 +1,4 @@
-﻿function Invoke-PsvParser {
+﻿function Invoke-Parser {
 
     param (
         [Parameter(Mandatory)]

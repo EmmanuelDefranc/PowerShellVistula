@@ -1,4 +1,4 @@
-@{
+$Script:PsvIcon = @{
     ExclamationMark = "&#" + [System.Convert]::toInt32("2755",16) + ";"
     DoubleExclamationMark = "&#" + [System.Convert]::toInt32("203C",16) + ";"
     Success = "&#" + [System.Convert]::toInt32("2714",16) + ";"

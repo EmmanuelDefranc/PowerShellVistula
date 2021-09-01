@@ -17,7 +17,7 @@
         If the script has to run differently based on user input, pass the $args variable to the functions (the functions must support input parameters)
     #>
 
-    About = .$PSScriptRoot\..\model\Get-PsvAbout.ps1 #-Parameter1 $args[0]
+    About = .$PSScriptRoot\..\scripts\Get-PsvAbout.ps1 #-Parameter1 $args[0]
 
     Example = &{
         $proc = Get-Process | Group-Object -Property ProcessName | Sort-Object -Property Count -Descending | Select-Object -First 1

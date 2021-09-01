@@ -1,15 +1,13 @@
-function Get-PsvPage {
+function Get-Page {
     param(
-        [string]$View,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$Controller,
-
-        [string[]]$ArgumentList
+        [PSCustomObject[]]$ArgumentList
     )
 
-    $Global:PsvIcon = .$PSScriptRoot\Register-PsvIcon.ps1
-    $PsvView = Import-Clixml -Path $View
-    $PsvData = .$Controller @ArgumentList
+    $PsvView = Import-Clixml -Path "$((Get-Location).Path)\.cache\$Name.xml"
+    $PsvData = ."$((Get-Location).Path)\mapping\$Name.ps1" @ArgumentList
 
     #Injecting text into the HTML file
     $HtmlPage = @()
@@ -21,12 +19,13 @@ function Get-PsvPage {
                     $HtmlPage += $result
                 }
                 else {
-                    throw "Value not found '`$PsvData.$($section.Data)'"
+                    Write-Host "Value is null, empty or it was not found '`$PsvData.$($section.Data)'"
                 }
                 #Invoke-Expression "`$psv$(($tokens.Code -split "\." | ForEach-Object {".get_Item('$_')"}) -join '')"
                 break
             }
             "PsvCode" {
+                # To be expanded someday
                 break
             }
             "PowerShell" {
@@ -47,5 +46,4 @@ function Get-PsvPage {
         }
     }
     return $HtmlPage
-
 }

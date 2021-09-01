@@ -15,7 +15,10 @@ function New-Project {
             return $true
         })]
         [string]
-        $Path
+        $Path,
+
+        [ValidateSet("SimpleSite")]
+        $Template
     )
 
     if (-not $Path) {
@@ -23,7 +26,7 @@ function New-Project {
     }
 
     try {
-        Copy-Item -Path "$PSScriptRoot\..\Templates\SimpleSite\*" -Destination $Path -Recurse -ErrorAction Stop
+        Copy-Item -Path "$PSScriptRoot\..\Templates\$Template\*" -Destination $Path -Recurse -ErrorAction Stop
     }
     catch {
         throw "Unable to create a new project (copy): $PSItem"
